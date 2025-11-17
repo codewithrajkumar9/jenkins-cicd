@@ -17,12 +17,12 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Mule runtime to deploy on CloudHub -->
-        <app.runtime>4.7.4</app.runtime>
+        <app.runtime>4.7.2</app.runtime>
 
         <!-- Mule Maven plugin version -->
         <mule.maven.plugin.version>4.3.0</mule.maven.plugin.version>
 
-        <!-- Default deployment values (you can override from Jenkins with -D...) -->
+        <!-- Default deployment values (can be overridden with -D... in Jenkins) -->
         <deployment.env>Sandbox</deployment.env>
         <deployment.region>us-east-2</deployment.region>
         <deployment.workers>1</deployment.workers>
@@ -46,33 +46,38 @@
                 <artifactId>mule-maven-plugin</artifactId>
                 <version>${mule.maven.plugin.version}</version>
                 <extensions>true</extensions>
-                     <configuration>
-    <cloudHubDeployment>
-        <uri>https://anypoint.mulesoft.com/</uri>
-        <muleVersion>${deployment.app.runtime}</muleVersion>
 
-        <username>${anypoint.username}</username>
-        <password>${anypoint.password}</password>
+                <configuration>
+                    <cloudHubDeployment>
+                        <!-- Anypoint platform URL -->
+                        <uri>https://anypoint.mulesoft.com</uri>
 
-        <applicationName>${project.artifactId}</applicationName>
+                        <!-- Mule runtime version on CloudHub -->
+                        <muleVersion>${app.runtime}</muleVersion>
 
-        <environment>${env}</environment>
-        <region>${deployment.region}</region>
+                        <!-- Passed from Jenkins/Maven: -Danypoint.username / -Danypoint.password -->
+                        <username>${anypoint.username}</username>
+                        <password>${anypoint.password}</password>
 
-        <workers>${deployment.workers}</workers>
-        <workerType>${deployment.workerType}</workerType>
-              
+                        <!-- App name on CloudHub -->
+                        <applicationName>${project.artifactId}</applicationName>
 
+                        <!-- Environment & region -->
+                        <environment>${deployment.env}</environment>
+                        <region>${deployment.region}</region>
 
-        <properties>
-            <http.port>${http.port}</http.port>
-            <mule.env>${env}</mule.env>
-        </properties>
-    </cloudHubDeployment>
-</configuration>
+                        <!-- Workers config -->
+                        <workers>${deployment.workers}</workers>
+                        <workerType>${deployment.workerType}</workerType>
 
-
-               
+                        <!-- Mule app properties -->
+                        <properties>
+                            <http.port>${http.port}</http.port>
+                            <!-- Mule environment property -->
+                            <mule.env>${deployment.env}</mule.env>
+                        </properties>
+                    </cloudHubDeployment>
+                </configuration>
             </plugin>
         </plugins>
     </build>
