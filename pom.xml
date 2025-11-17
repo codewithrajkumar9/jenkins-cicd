@@ -61,9 +61,7 @@
 
         <workers>${deployment.workers}</workers>
         <workerType>${deployment.workerType}</workerType>
-              <clientId>${anypoint.platform.client_id}</clientId>
-      <clientSecret>${anypoint.platform.client_secret}</clientSecret>
-
+              
 
 
         <properties>
