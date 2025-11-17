@@ -49,34 +49,24 @@
 
                 <configuration>
                     <cloudHubDeployment>
-                        <!-- Anypoint platform URL -->
-                        <uri>https://anypoint.mulesoft.com</uri>
+    <uri>https://anypoint.mulesoft.com</uri>
+    <muleVersion>${app.runtime}</muleVersion>
 
-                        <!-- Mule runtime version on CloudHub -->
-                        <muleVersion>${app.runtime}</muleVersion>
+    <username>Integration_with_Rajkumar</username>
+    <password>Scriptbees33$</password>
 
-                        <!-- Passed from Jenkins/Maven: -Danypoint.username / -Danypoint.password -->
-                        <username>${anypoint.username}</username>
-                        <password>${anypoint.password}</password>
+    <applicationName>${project.artifactId}</applicationName>
+    <environment>${deployment.env}</environment>
+    <region>${deployment.region}</region>
+    <workers>${deployment.workers}</workers>
+    <workerType>${deployment.workerType}</workerType>
 
-                        <!-- App name on CloudHub -->
-                        <applicationName>${project.artifactId}</applicationName>
+    <properties>
+        <http.port>${http.port}</http.port>
+        <mule.env>${deployment.env}</mule.env>
+    </properties>
+</cloudHubDeployment>
 
-                        <!-- Environment & region -->
-                        <environment>${deployment.env}</environment>
-                        <region>${deployment.region}</region>
-
-                        <!-- Workers config -->
-                        <workers>${deployment.workers}</workers>
-                        <workerType>${deployment.workerType}</workerType>
-
-                        <!-- Mule app properties -->
-                        <properties>
-                            <http.port>${http.port}</http.port>
-                            <!-- Mule environment property -->
-                            <mule.env>${deployment.env}</mule.env>
-                        </properties>
-                    </cloudHubDeployment>
                 </configuration>
             </plugin>
         </plugins>
