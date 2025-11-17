@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ceb1bd1b-5b2c-4344-893f-30afcf7834c9" >
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="2b5a63dd-3075-4c81-8617-7aa480247cbd" file="config\dev.yaml" />
+	<flow name="jenkins-cicdFlow" doc:id="f8ec1fa9-0e95-40d8-896d-ced4ff032ad7" >
+		<http:listener doc:name="Listener" doc:id="a328876b-05cc-4d18-a18b-11a0573d18ca" config-ref="HTTP_Listener_config" path="/jenkins-cicd"/>
+		<set-payload value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;  message: "Hello from Jenkins CI/CD demo"&#10;}]' doc:name="Set Payload" doc:id="83de2df3-4484-42ed-a779-503c3c0b0a74" />
+	</flow>
+</mule>
