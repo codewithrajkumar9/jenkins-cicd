@@ -47,36 +47,7 @@
                 <version>${mule.maven.plugin.version}</version>
                 <extensions>true</extensions>
 
-                <configuration>
-                    <cloudHubDeployment>
-                        <!-- Anypoint platform URL -->
-                        <uri>https://anypoint.mulesoft.com</uri>
-
-                        <!-- Mule runtime version on CloudHub -->
-                        <muleVersion>${app.runtime}</muleVersion>
-
-                        <!-- These will be passed from Jenkins/Maven as -Danypoint.username / -Danypoint.password -->
-                        <username>${anypoint.username}</username>
-                        <password>${anypoint.password}</password>
-
-                        <!-- App name on CloudHub (same as artifactId) -->
-                        <applicationName>${project.artifactId}</applicationName>
-
-                        <!-- Environment & region -->
-                        <environment>${deployment.env}</environment>
-                        <region>${deployment.region}</region>
-
-                        <!-- Workers config -->
-                        <workers>${deployment.workers}</workers>
-                        <workerType>${deployment.workerType}</workerType>
-                        <objectStoreV2>true</objectStoreV2>
-
-                        <!-- Mule app properties -->
-                        <properties>
-                            <http.port>${http.port}</http.port>
-                        </properties>
-                    </cloudHubDeployment>
-                </configuration>
+               
             </plugin>
         </plugins>
     </build>
