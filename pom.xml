@@ -93,6 +93,8 @@
                         <environment>${deployment.env}</environment>
                         <target>${deployment.target}</target>
 
+                             <server>Repository</server>
+
                         <!-- Overridden from Jenkins with -Danypoint.username/password -->
                         <username>${anypoint.username}</username>
                         <password>${anypoint.password}</password>
