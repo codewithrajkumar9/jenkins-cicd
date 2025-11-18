@@ -22,29 +22,35 @@
         <!-- Mule Maven plugin -->
         <mule.maven.plugin.version>4.1.1</mule.maven.plugin.version>
 
-        <!-- Deployment properties -->
-        <deployment.env>Sandbox</deployment.env>
-        <deployment.target>${mule.target}</deployment.target>
-        <!-- Credentials will be passed via CLI or Jenkins -->
+        <!-- CloudHub 2.0 deployment -->
+        <!-- Use the actual CH2 region code here -->
+        <mule.target>Cloudhub-US-East-2</mule.target>   <!-- Shared Space (US East - Ohio) -->
+        <mule.environment>Sandbox</mule.environment>
+        <!-- anypoint.username / anypoint.password will come from Jenkins as -D props -->
     </properties>
 
+    <!-- Repositories -->
     <repositories>
+        <!-- Your org Exchange repo (keep as it is if working in Studio) -->
         <repository>
             <id>exchange-repo</id>
             <name>Exchange2 Repository</name>
             <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/d8372553-91e5-45df-9b88-283b1b3dde80/maven</url>
         </repository>
+
         <repository>
             <id>mulesoft-releases</id>
             <name>MuleSoft Releases</name>
             <url>https://repository.mulesoft.org/releases/</url>
         </repository>
+
         <repository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
         </repository>
     </repositories>
 
+    <!-- Plugin repositories -->
     <pluginRepositories>
         <pluginRepository>
             <id>mulesoft-plugin-repo</id>
@@ -59,6 +65,7 @@
 
     <build>
         <plugins>
+            <!-- Clean plugin (optional but good) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
@@ -71,19 +78,31 @@
                 <artifactId>mule-maven-plugin</artifactId>
                 <version>${mule.maven.plugin.version}</version>
                 <extensions>true</extensions>
+
                 <configuration>
+                    <!-- Packaging classifier -->
                     <classifier>mule-application</classifier>
+
                     <cloudhub2Deployment>
                         <uri>https://anypoint.mulesoft.com</uri>
                         <provider>MC</provider>
-                        <environment>${deployment.env}</environment>
-                        <target>${deployment.target}</target>
+
+                        <!-- Environment & target -->
+                        <environment>${mule.environment}</environment>
+                        <target>${mule.target}</target>
+
+                        <!-- Credentials: passed from Jenkins -->
                         <username>${anypoint.username}</username>
                         <password>${anypoint.password}</password>
+
+                        <!-- Runtime & app name -->
                         <muleVersion>${app.runtime}</muleVersion>
                         <applicationName>${project.artifactId}</applicationName>
+
+                        <!-- Basic sizing -->
                         <replicas>1</replicas>
                         <vCores>0.1</vCores>
+
                         <deploymentSettings>
                             <generateDefaultPublicUrl>true</generateDefaultPublicUrl>
                         </deploymentSettings>
@@ -93,6 +112,7 @@
         </plugins>
     </build>
 
+    <!-- Minimal dependencies -->
     <dependencies>
         <dependency>
             <groupId>org.mule.connectors</groupId>
@@ -100,6 +120,7 @@
             <version>1.10.0</version>
             <classifier>mule-plugin</classifier>
         </dependency>
+
         <dependency>
             <groupId>org.mule.connectors</groupId>
             <artifactId>mule-sockets-connector</artifactId>
