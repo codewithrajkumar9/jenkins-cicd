@@ -25,8 +25,7 @@
         <!-- Deployment properties -->
         <deployment.env>Sandbox</deployment.env>
         <deployment.target>${mule.target}</deployment.target>
-        <anypoint.username>${anypoint.username}</anypoint.username>
-        <anypoint.password>${anypoint.password}</anypoint.password>
+        <!-- Credentials will be passed via CLI or Jenkins -->
     </properties>
 
     <repositories>
