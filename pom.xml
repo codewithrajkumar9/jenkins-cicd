@@ -96,9 +96,7 @@
                         <!-- Anypoint environment -->
                         <environment>${deployment.env}</environment>
 
-                        <!-- CloudHub 2.0 space name -->
-                        <target>Shared Space</target>
-
+                        
                         <!-- Credentials (move to Jenkins later) -->
                         <username>Integration_with_Rajkumar</username>
                         <password>Scriptbees33$</password>
