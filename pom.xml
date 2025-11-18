@@ -16,22 +16,20 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <!-- Mule runtime -->
-        <app.runtime>4.10.1</app.runtime>
+        <!-- Mule runtime version from CH2 UI -->
+        <app.runtime>4.10.1:12e</app.runtime>
 
         <!-- Mule Maven plugin -->
         <mule.maven.plugin.version>4.1.1</mule.maven.plugin.version>
 
-        <!-- CloudHub 2.0 deployment -->
-        <!-- Use the actual CH2 region code here -->
-        <mule.target>Cloudhub-US-East-2</mule.target>   <!-- Shared Space (US East - Ohio) -->
+        <!-- CloudHub 2.0 target + env -->
+        <mule.target>Cloudhub-US-East-2</mule.target>
         <mule.environment>Sandbox</mule.environment>
-        <!-- anypoint.username / anypoint.password will come from Jenkins as -D props -->
     </properties>
 
-    <!-- Repositories -->
+    <!-- Repositories used to RESOLVE dependencies and plugins -->
     <repositories>
-        <!-- Your org Exchange repo (keep as it is if working in Studio) -->
+        <!-- Your org Exchange repo -->
         <repository>
             <id>exchange-repo</id>
             <name>Exchange2 Repository</name>
@@ -50,7 +48,6 @@
         </repository>
     </repositories>
 
-    <!-- Plugin repositories -->
     <pluginRepositories>
         <pluginRepository>
             <id>mulesoft-plugin-repo</id>
@@ -65,14 +62,14 @@
 
     <build>
         <plugins>
-            <!-- Clean plugin (optional but good) -->
+            <!-- Optional clean plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.2.0</version>
             </plugin>
 
-            <!-- Mule CloudHub 2.0 Deployment -->
+            <!-- Mule CloudHub 2.0 deployment -->
             <plugin>
                 <groupId>org.mule.tools.maven</groupId>
                 <artifactId>mule-maven-plugin</artifactId>
@@ -80,26 +77,22 @@
                 <extensions>true</extensions>
 
                 <configuration>
-                    <!-- Packaging classifier -->
                     <classifier>mule-application</classifier>
 
                     <cloudhub2Deployment>
                         <uri>https://anypoint.mulesoft.com</uri>
                         <provider>MC</provider>
 
-                        <!-- Environment & target -->
                         <environment>${mule.environment}</environment>
                         <target>${mule.target}</target>
 
-                        <!-- Credentials: passed from Jenkins -->
+                        <!-- Passed at build time from Jenkins -->
                         <username>${anypoint.username}</username>
                         <password>${anypoint.password}</password>
 
-                        <!-- Runtime & app name -->
                         <muleVersion>${app.runtime}</muleVersion>
                         <applicationName>${project.artifactId}</applicationName>
 
-                        <!-- Basic sizing -->
                         <replicas>1</replicas>
                         <vCores>0.1</vCores>
 
@@ -112,7 +105,7 @@
         </plugins>
     </build>
 
-    <!-- Minimal dependencies -->
+    <!-- App dependencies -->
     <dependencies>
         <dependency>
             <groupId>org.mule.connectors</groupId>
@@ -128,7 +121,9 @@
             <classifier>mule-plugin</classifier>
         </dependency>
     </dependencies>
-             <distributionManagement>
+
+    <!-- Where to DEPLOY artifact so CH2 can pull it -->
+    <distributionManagement>
         <repository>
             <id>anypoint-exchange-v3</id>
             <name>Exchange Private Repository</name>
@@ -136,6 +131,5 @@
             <layout>default</layout>
         </repository>
     </distributionManagement>
-</project>
 
 </project>
