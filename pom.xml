@@ -5,7 +5,8 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.mycompany</groupId>
+    <!-- IMPORTANT: groupId MUST be your Anypoint org / business group ID -->
+    <groupId>d8372553-91e5-45df-9b88-283b1b3dde80</groupId>
     <artifactId>jenkins-cicd</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>mule-application</packaging>
@@ -16,32 +17,29 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <!-- Mule runtime version from CH2 UI -->
+        <!-- Mule runtime (must match CH2 runtime you chose: 4.10.1:12e edge/java17) -->
         <app.runtime>4.10.1:12e</app.runtime>
 
         <!-- Mule Maven plugin -->
         <mule.maven.plugin.version>4.1.1</mule.maven.plugin.version>
 
-        <!-- CloudHub 2.0 target + env -->
-        <mule.target>Cloudhub-US-East-2</mule.target>
-        <mule.environment>Sandbox</mule.environment>
+        <!-- CH2 deploy props -->
+        <deployment.env>Sandbox</deployment.env>
+        <deployment.target>Cloudhub-US-East-2</deployment.target>
     </properties>
 
-    <!-- Repositories used to RESOLVE dependencies and plugins -->
+    <!-- Exchange Maven Facade repositories (for dependencies) -->
     <repositories>
-        <!-- Your org Exchange repo -->
         <repository>
             <id>exchange-repo</id>
             <name>Exchange2 Repository</name>
             <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/d8372553-91e5-45df-9b88-283b1b3dde80/maven</url>
         </repository>
-
         <repository>
             <id>mulesoft-releases</id>
             <name>MuleSoft Releases</name>
             <url>https://repository.mulesoft.org/releases/</url>
         </repository>
-
         <repository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
@@ -60,36 +58,42 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <!-- CRUCIAL: distributionManagement so "mvn deploy" publishes to Exchange -->
+    <distributionManagement>
+        <repository>
+            <id>exchange-repo</id> <!-- must match <server> id in settings.xml -->
+            <name>Exchange Repository</name>
+            <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/d8372553-91e5-45df-9b88-283b1b3dde80/maven</url>
+            <layout>default</layout>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
-            <!-- Optional clean plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.2.0</version>
             </plugin>
 
-            <!-- Mule CloudHub 2.0 deployment -->
+            <!-- Mule CloudHub 2.0 Deployment -->
             <plugin>
                 <groupId>org.mule.tools.maven</groupId>
                 <artifactId>mule-maven-plugin</artifactId>
                 <version>${mule.maven.plugin.version}</version>
                 <extensions>true</extensions>
-
                 <configuration>
                     <classifier>mule-application</classifier>
 
                     <cloudhub2Deployment>
                         <uri>https://anypoint.mulesoft.com</uri>
                         <provider>MC</provider>
+                        <environment>${deployment.env}</environment>
+                        <target>${deployment.target}</target>
 
-                        <environment>${mule.environment}</environment>
-                        <target>${mule.target}</target>
-
-                        <!-- Passed at build time from Jenkins -->
+                        <!-- These 4 can still be overridden from Jenkins with -D... -->
                         <username>${anypoint.username}</username>
                         <password>${anypoint.password}</password>
-
                         <muleVersion>${app.runtime}</muleVersion>
                         <applicationName>${project.artifactId}</applicationName>
 
@@ -105,7 +109,6 @@
         </plugins>
     </build>
 
-    <!-- App dependencies -->
     <dependencies>
         <dependency>
             <groupId>org.mule.connectors</groupId>
@@ -113,7 +116,6 @@
             <version>1.10.0</version>
             <classifier>mule-plugin</classifier>
         </dependency>
-
         <dependency>
             <groupId>org.mule.connectors</groupId>
             <artifactId>mule-sockets-connector</artifactId>
@@ -121,15 +123,4 @@
             <classifier>mule-plugin</classifier>
         </dependency>
     </dependencies>
-
-    <!-- Where to DEPLOY artifact so CH2 can pull it -->
-    <distributionManagement>
-        <repository>
-            <id>anypoint-exchange-v3</id>
-            <name>Exchange Private Repository</name>
-            <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/d8372553-91e5-45df-9b88-283b1b3dde80/maven</url>
-            <layout>default</layout>
-        </repository>
-    </distributionManagement>
-
 </project>
