@@ -16,30 +16,30 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <!-- Mule runtime to deploy on CloudHub 2.0 -->
+        <!-- Mule runtime -->
         <app.runtime>4.7.2</app.runtime>
 
-        <!-- CH2 supported Mule Maven plugin -->
+        <!-- Mule Maven plugin -->
         <mule.maven.plugin.version>4.1.1</mule.maven.plugin.version>
 
+        <!-- Deployment properties -->
         <deployment.env>Sandbox</deployment.env>
-        <http.port>8081</http.port>
+        <deployment.target>${mule.target}</deployment.target>
+        <anypoint.username>${anypoint.username}</anypoint.username>
+        <anypoint.password>${anypoint.password}</anypoint.password>
     </properties>
 
-    <!-- Required for CloudHub 2.0 -->
     <repositories>
         <repository>
             <id>exchange-repo</id>
             <name>Exchange2 Repository</name>
             <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/d8372553-91e5-45df-9b88-283b1b3dde80/maven</url>
         </repository>
-
         <repository>
             <id>mulesoft-releases</id>
             <name>MuleSoft Releases</name>
             <url>https://repository.mulesoft.org/releases/</url>
         </repository>
-
         <repository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
@@ -47,75 +47,50 @@
     </repositories>
 
     <pluginRepositories>
-        <!-- Important: plugin must be resolvable from MuleSoft repo -->
         <pluginRepository>
             <id>mulesoft-plugin-repo</id>
             <name>MuleSoft Plugin Repository</name>
             <url>https://repository.mulesoft.org/releases/</url>
-            <layout>default</layout>
         </pluginRepository>
-
-        <!-- keep central as fallback -->
         <pluginRepository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
         </pluginRepository>
     </pluginRepositories>
 
-    <distributionManagement>
-        <repository>
-            <id>exchange-repo</id>
-            <name>Exchange2 Repository</name>
-            <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/d8372553-91e5-45df-9b88-283b1b3dde80/maven</url>
-        </repository>
-    </distributionManagement>
-
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.2.0</version>
             </plugin>
 
-            <!-- CLOUDHUB 2.0 Deployment -->
+            <!-- Mule CloudHub 2.0 Deployment -->
             <plugin>
                 <groupId>org.mule.tools.maven</groupId>
                 <artifactId>mule-maven-plugin</artifactId>
                 <version>${mule.maven.plugin.version}</version>
                 <extensions>true</extensions>
-
                 <configuration>
                     <classifier>mule-application</classifier>
-
                     <cloudhub2Deployment>
                         <uri>https://anypoint.mulesoft.com</uri>
                         <provider>MC</provider>
-
-                        <!-- Anypoint environment -->
                         <environment>${deployment.env}</environment>
-
-                        
-                        <!-- Credentials (move to Jenkins later) -->
-                        <username>Integration_with_Rajkumar</username>
-                        <password>Scriptbees33$</password>
-
-                        <!-- Runtime version -->
+                        <target>${deployment.target}</target>
+                        <username>${anypoint.username}</username>
+                        <password>${anypoint.password}</password>
                         <muleVersion>${app.runtime}</muleVersion>
-
-                        <!-- App settings -->
                         <applicationName>${project.artifactId}</applicationName>
                         <replicas>1</replicas>
                         <vCores>0.1</vCores>
-
                         <deploymentSettings>
                             <generateDefaultPublicUrl>true</generateDefaultPublicUrl>
                         </deploymentSettings>
                     </cloudhub2Deployment>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 
@@ -126,7 +101,6 @@
             <version>1.10.0</version>
             <classifier>mule-plugin</classifier>
         </dependency>
-
         <dependency>
             <groupId>org.mule.connectors</groupId>
             <artifactId>mule-sockets-connector</artifactId>
@@ -134,5 +108,4 @@
             <classifier>mule-plugin</classifier>
         </dependency>
     </dependencies>
-
 </project>
