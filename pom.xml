@@ -36,9 +36,31 @@
 
         <repository>
             <id>mulesoft-releases</id>
+            <name>MuleSoft Releases</name>
             <url>https://repository.mulesoft.org/releases/</url>
         </repository>
+
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
     </repositories>
+
+    <pluginRepositories>
+        <!-- Important: plugin must be resolvable from MuleSoft repo -->
+        <pluginRepository>
+            <id>mulesoft-plugin-repo</id>
+            <name>MuleSoft Plugin Repository</name>
+            <url>https://repository.mulesoft.org/releases/</url>
+            <layout>default</layout>
+        </pluginRepository>
+
+        <!-- keep central as fallback -->
+        <pluginRepository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <distributionManagement>
         <repository>
