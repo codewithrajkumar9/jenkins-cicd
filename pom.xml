@@ -18,7 +18,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Mule runtime (CloudHub 2.0 Free Trial – edge/java17) -->
-        <app.runtime>4.10.1:12e</app.runtime>
+        <app.runtime>4.10.1</app.runtime>
 
         <!-- Mule Maven plugin -->
         <mule.maven.plugin.version>4.1.1</mule.maven.plugin.version>
