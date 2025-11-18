@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- IMPORTANT: groupId MUST be your Anypoint org / business group ID -->
+    <!-- Anypoint Org / Business Group ID -->
     <groupId>d8372553-91e5-45df-9b88-283b1b3dde80</groupId>
     <artifactId>jenkins-cicd</artifactId>
     <version>1.0.0-SNAPSHOT</version>
@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <!-- Mule runtime (must match CH2 runtime you chose: 4.10.1:12e edge/java17) -->
+        <!-- Mule runtime (CloudHub 2.0 Free Trial – edge/java17) -->
         <app.runtime>4.10.1:12e</app.runtime>
 
         <!-- Mule Maven plugin -->
@@ -31,7 +31,8 @@
     <!-- Exchange Maven Facade repositories (for dependencies) -->
     <repositories>
         <repository>
-            <id>exchange-repo</id>
+            <!-- 🔹 MUST match <server><id>anypoint-exchange-v3</id> in settings.xml -->
+            <id>anypoint-exchange-v3</id>
             <name>Exchange2 Repository</name>
             <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/d8372553-91e5-45df-9b88-283b1b3dde80/maven</url>
         </repository>
@@ -61,7 +62,8 @@
     <!-- CRUCIAL: distributionManagement so "mvn deploy" publishes to Exchange -->
     <distributionManagement>
         <repository>
-            <id>exchange-repo</id> <!-- must match <server> id in settings.xml -->
+            <!-- 🔹 MUST match <server><id>Repository</id> in settings.xml -->
+            <id>Repository</id>
             <name>Exchange Repository</name>
             <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/d8372553-91e5-45df-9b88-283b1b3dde80/maven</url>
             <layout>default</layout>
@@ -91,7 +93,7 @@
                         <environment>${deployment.env}</environment>
                         <target>${deployment.target}</target>
 
-                        <!-- These 4 can still be overridden from Jenkins with -D... -->
+                        <!-- Overridden from Jenkins with -Danypoint.username/password -->
                         <username>${anypoint.username}</username>
                         <password>${anypoint.password}</password>
                         <muleVersion>${app.runtime}</muleVersion>
